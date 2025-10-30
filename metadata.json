@@ -1,0 +1,7 @@
+{
+  "name": "Real-Time Edge Detection Web Viewer",
+  "description": "A web-based viewer and debug tool to display processed camera frames, simulating the output of an Android OpenCV application. It features a mock real-time data stream and allows users to upload their own static frames.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

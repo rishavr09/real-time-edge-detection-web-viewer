@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time Edge Detection Web Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'sans': ['Share Tech Mono', 'monospace'],
+              'orbitron': ['Orbitron', 'sans-serif'],
+            },
+            colors: {
+              'primary': '#0ea5e9', // sky-500
+              'secondary': '#a855f7', // fuchsia-500
+              'danger': '#f43f5e', // rose-500
+              'background': '#080c1b',
+              'surface': 'rgba(15, 23, 42, 0.5)', // slate-900 with opacity
+            },
+            keyframes: {
+              'glow': {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: .5 },
+              },
+              'float': {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-5px)' },
+              },
+              'border-pulse': {
+                '0%, 100%': { 'box-shadow': '0 0 20px 3px rgba(14, 165, 233, 0.3)' },
+                '50%': { 'box-shadow': '0 0 30px 5px rgba(14, 165, 233, 0.5)' },
+              },
+              'dots': {
+                '0%': { 'background-position': '0 0' },
+                '100%': { 'background-position': '40px 40px' },
+              }
+            },
+            animation: {
+              'glow': 'glow 2s ease-in-out infinite',
+              'float': 'float 3s ease-in-out infinite',
+              'border-pulse': 'border-pulse 4s ease-in-out infinite',
+              'dots': 'dots 2s linear infinite',
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      :root {
+        --bg-color: #080c1b;
+        --dot-color: rgba(56, 189, 248, 0.1);
+      }
+      body {
+        background-color: var(--bg-color);
+        background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+        background-size: 20px 20px;
+        animation: dots 2s linear infinite;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.5);
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #0ea5e9;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #38bdf8;
+      }
+      /* REFINED BUTTON STYLES */
+      .btn {
+        @apply w-full flex items-center justify-center px-4 py-3 font-semibold rounded-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 transform relative overflow-hidden z-0;
+        background: transparent;
+        border: 2px solid;
+        transition: color 0.4s ease-out, transform 0.2s ease-out;
+        will-change: transform;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--btn-bg-color);
+        z-index: -1;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1);
+        will-change: transform;
+      }
+      
+      .btn:hover {
+        color: #fff;
+      }
+
+      .btn:hover::before {
+        transform: scaleX(1);
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+      
+      .btn svg {
+        transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+      }
+      .btn:hover svg {
+        transform: scale(1.15) rotate(3deg);
+      }
+
+      .btn-primary {
+        --btn-bg-color: #0ea5e9; /* sky-500 */
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+        @apply focus:ring-sky-500/50;
+        box-shadow: 0 0 10px rgba(14, 165, 233, 0.3), inset 0 0 5px rgba(14, 165, 233, 0.2);
+      }
+      .btn-primary:hover {
+        box-shadow: 0 0 15px rgba(14, 165, 233, 0.5), 0 0 30px rgba(14, 165, 233, 0.3);
+      }
+      
+      .btn-danger {
+        --btn-bg-color: #f43f5e; /* rose-500 */
+        border-color: #f43f5e;
+        color: #f43f5e;
+        @apply focus:ring-rose-500/50;
+        box-shadow: 0 0 10px rgba(244, 63, 94, 0.3), inset 0 0 5px rgba(244, 63, 94, 0.2);
+      }
+      .btn-danger:hover {
+        box-shadow: 0 0 15px rgba(244, 63, 94, 0.5), 0 0 30px rgba(244, 63, 94, 0.3);
+      }
+
+      .btn-secondary {
+        --btn-bg-color: #a855f7; /* fuchsia-500 */
+        border-color: #a855f7;
+        color: #a855f7;
+        @apply focus:ring-fuchsia-500/50;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.3), inset 0 0 5px rgba(168, 85, 247, 0.2);
+      }
+      .btn-secondary:hover {
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.5), 0 0 30px rgba(168, 85, 247, 0.3);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="text-gray-300 font-sans">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
