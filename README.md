@@ -31,18 +31,6 @@ A complementary **TypeScript Web Viewer** provides an interactive display for pr
 
 ---
 
-## 🖼️ Screenshots  
-
-**1️⃣ Interface Overview (Idle State)**  
-![UI Screenshot – Idle](./screenshots/screen1.png)  
-
-**2️⃣ Live Stream (Invert Filter Applied)**  
-![UI Screenshot – Invert Filter](./screenshots/screen2.png)  
-
-**3️⃣ Real-Time Edge Detection at 30 FPS**  
-![UI Screenshot – Edge Detection](./screenshots/screen3.png)  
-
----
 
 ## 🛠️ Tech Stack  
 
@@ -63,9 +51,3 @@ A complementary **TypeScript Web Viewer** provides an interactive display for pr
 - A device (or emulator) running Android 7.0 (API 24)+  
 - **Node.js** (v16 or higher) for building the web viewer  
 
----
-
-### 🔹 Clone the Project  
-```bash
-git clone https://github.com/meghh06/Android-CV-GL-Debug-Viewer-Clean.git
-cd Android-CV-GL-Debug-Viewer-Clean
